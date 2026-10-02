@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kuis Taman Ceria 🌿</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    -webkit-tap-highlight-color:transparent;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+}
+
+body{
+    font-family:Arial,sans-serif;
+    overflow-x:hidden;
+    background:linear-gradient(#71c9f0,#c9efc5);
+    color:#24502c;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+#background{
+    position:fixed;
+    inset:0;
+    overflow:hidden;
+    z-index:0;
+    pointer-events:none;
+}
+
+/* matahari */
+.sun{
+    position:absolute;
+    width:100px;
+    height:100px;
+    right:8%;
+    top:8%;
+    border-radius:50%;
+    background:#ffd85a;
+    box-shadow:0 0 45px #ffe995;
+    animation:sunMove 5s ease-in-out infinite alternate;
+}
+
+@keyframes sunMove{
+    from{transform:translateY(0)}
+    to{transform:translateY(15px)}
+}
+
+/* awan */
+.cloud{
+    position:absolute;
+    width:150px;
+    height:45px;
+    background:white;
+    border-radius:50px;
+    opacity:.8;
+    animation:cloudMove 35s linear infinite;
+}
+
+.cloud:before,
+.cloud:after{
+    content:"";
+    position:absolute;
+    background:white;
+    border-radius:50%;
+}
+
+.cloud:before{
+    width:60px;
+    height:60px;
+    left:25px;
+    bottom:10px;
+}
+
+.cloud:after{
+    width:75px;
+    height:75px;
+    right:25px;
+    bottom:5px;
+}
+
+.cloud1{
+    top:14%;
+    left:-180px;
+}
+
+.cloud2{
+    top:30%;
+    left:-300px;
+    animation-duration:45s;
+    animation-delay:10s;
+    transform:scale(.8);
+}
+
+@keyframes cloudMove{
+    from{left:-300px}
+    to{left:110%}
+}
+
+/* rumput */
+.grass{
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:120px;
+    background:#55ad50;
+    border-radius:50% 50% 0 0;
+}
+
+/* pohon */
+.tree{
+    position:absolute;
+    bottom:55px;
+    width:120px;
+    height:170px;
+}
+
+.tree .trunk{
+    position:absolute;
+    bottom:0;
+    left:50px;
+    width:22px;
+    height:90px;
+    background:#76502f;
+    border-radius:10px;
+}
+
+.tree .leaf{
+    position:absolute;
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    background:#329447;
+}
+
+.tree .l1{
+    left:5px;
+    top:15px;
+}
+
+.tree .l2{
+    left:40px;
+    top:0;
+}
+
+.tree .l3{
+    left:35px;
+    top:50px;
+}
+
+.tree1{
+    left:2%;
+}
+
+.tree2{
+    right:2%;
+    transform:scale(.8);
+}
+
+/* daun jatuh */
+.leafFall{
+    position:absolute;
+    top:-30px;
+    font-size:24px;
+    animation:fall linear infinite;
+}
+
+.leaf1{
+    left:15%;
+    animation-duration:7s;
+}
+
+.leaf2{
+    left:42%;
+    animation-duration:9s;
+    animation-delay:2s;
+}
+
+.leaf3{
+    left:70%;
+    animation-duration:8s;
+    animation-delay:4s;
+}
+
+.leaf4{
+    left:88%;
+    animation-duration:11s;
+    animation-delay:1s;
+}
+
+@keyframes fall{
+    0%{
+        transform:translateY(-30px) rotate(0deg);
+        opacity:0;
+    }
+    10%{
+        opacity:1;
+    }
+    100%{
+        transform:translateY(110vh) rotate(500deg);
+        opacity:0;
+    }
+}
+
+
+/* =========================
+   ISI UTAMA
+========================= */
+
+#app{
+    position:relative;
+    z-index:10;
+    width:100%;
+    min-height:100vh;
+    padding:25px 15px 150px;
+    pointer-events:auto;
+}
+
+.title{
+    text-align:center;
+    color:white;
+    text-shadow:0 3px 7px #34703b;
+    margin-bottom:20px;
+}
+
+.title h1{
+    margin:0;
+    font-size:32px;
+}
+
+.title p{
+    margin:8px 0;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.card{
+    position:relative;
+    z-index:20;
+    width:100%;
+    max-width:600px;
+    margin:auto;
+    padding:25px;
+    background:rgba(255,255,255,.94);
+    border-radius:25px;
+    box-shadow:0 15px 40px rgba(0,0,0,.2);
+    pointer-events:auto;
+}
+
+.hidden{
+    display:none !important;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+label{
+    display:block;
+    font-weight:bold;
+    margin-bottom:8px;
+}
+
+input{
+    position:relative;
+    z-index:30;
+    width:100%;
+    height:55px;
+    border:2px solid #64ad70;
+    border-radius:14px;
+    padding:0 15px;
+    font-size:17px;
+    outline:none;
+    background:white;
+    color:#222;
+    pointer-events:auto;
+    touch-action:manipulation;
+}
+
+input:focus{
+    border-color:#278b3b;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+button{
+    position:relative;
+    z-index:30;
+    width:100%;
+    min-height:55px;
+    margin-top:12px;
+    border:0;
+    border-radius:14px;
+    padding:12px;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    pointer-events:auto;
+    touch-action:manipulation;
+    user-select:none;
+}
+
+button:active{
+    transform:scale(.97);
+}
+
+#startBtn{
+    background:#3da451;
+    color:white;
+}
+
+.answer{
+    background:#edf8ef;
+    color:#28572f;
+    border:2px solid #c8e4cb;
+    text-align:left;
+}
+
+.answer.correct{
+    background:#43aa58 !important;
+    color:white !important;
+    border-color:#43aa58 !important;
+}
+
+.answer.wrong{
+    background:#dc5555 !important;
+    color:white !important;
+    border-color:#dc5555 !important;
+}
+
+
+/* =========================
+   QUIZ
+========================= */
+
+.quizInfo{
+    display:flex;
+    justify-content:space-between;
+    font-weight:bold;
+    margin-bottom:12px;
+}
+
+.progress{
+    height:10px;
+    width:100%;
+    background:#e2e2e2;
+    border-radius:20px;
+    overflow:hidden;
+    margin-bottom:20px;
+}
+
+.progressBar{
+    height:100%;
+    width:0%;
+    background:#43a957;
+    transition:.3s;
+}
+
+.question{
+    background:#eff9f0;
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:15px;
+}
+
+.question h2{
+    margin:0;
+    font-size:20px;
+    line-height:1.4;
+}
+
+#feedback{
+    text-align:center;
+    font-weight:bold;
+    min-height:25px;
+    margin-top:12px;
+}
+
+
+/* =========================
+   HASIL
+========================= */
+
+.result{
+    text-align:center;
+}
+
+.trophy{
+    font-size:65px;
+}
+
+.result h2{
+    margin:5px 0;
+}
+
+.score{
+    font-size:55px;
+    font-weight:bold;
+    color:#3e9e50;
+    margin:15px 0;
+}
+
+#restartBtn{
+    background:#efa63d;
+    color:white;
+}
+
+
+/* =========================
+   LEADERBOARD
+========================= */
+
+.leaderboard{
+    margin-top:20px;
+    padding:15px;
+    background:#eff8f0;
+    border-radius:18px;
+    text-align:left;
+}
+
+.leaderboard h3{
+    text-align:center;
+    margin-top:0;
+}
+
+.rank{
+    display:flex;
+    justify-content:space-between;
+    padding:10px;
+    margin-top:7px;
+    background:white;
+    border-radius:10px;
+}
+
+
+/* HP */
+@media(max-width:500px){
+
+    #app{
+        padding:18px 10px 140px;
+    }
+
+    .card{
+        padding:20px;
+    }
+
+    .title h1{
+        font-size:27px;
+    }
+
+    .tree{
+        transform:scale(.7);
+    }
+
+    .tree2{
+        transform:scale(.6);
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     BACKGROUND
+========================= -->
+
+<div id="background">
+
+    <div class="sun"></div>
+
+    <div class="cloud cloud1"></div>
+    <div class="cloud cloud2"></div>
+
+    <div class="tree tree1">
+        <div class="leaf l1"></div>
+        <div class="leaf l2"></div>
+        <div class="leaf l3"></div>
+        <div class="trunk"></div>
+    </div>
+
+    <div class="tree tree2">
+        <div class="leaf l1"></div>
+        <div class="leaf l2"></div>
+        <div class="leaf l3"></div>
+        <div class="trunk"></div>
+    </div>
+
+    <div class="grass"></div>
+
+    <div class="leafFall leaf1">🍃</div>
+    <div class="leafFall leaf2">🍂</div>
+    <div class="leafFall leaf3">🍃</div>
+    <div class="leafFall leaf4">🍂</div>
+
+</div>
+
+
+<!-- =========================
+     APP
+========================= -->
+
+<div id="app">
+
+    <div class="title">
+        <h1>🌿 Kuis Taman Ceria</h1>
+        <p>Uji pengetahuanmu tentang tumbuhan 🌱</p>
+    </div>
+
+
+    <!-- HALAMAN AWAL -->
+
+    <div id="startPage" class="card">
+
+        <h2>🌱 Selamat Datang!</h2>
+
+        <p>
+            Jawab 10 pertanyaan mudah tentang tumbuhan
+            dan alam.
+        </p>
+
+        <label for="nameInput">
+            Nama kamu
+        </label>
+
+        <input
+            id="nameInput"
+            type="text"
+            placeholder="Masukkan nama..."
+            autocomplete="off"
+        >
+
+        <button
+            id="startBtn"
+            type="button">
+            🚀 MULAI KUIS
+        </button>
+
+    </div>
+
+
+    <!-- HALAMAN KUIS -->
+
+    <div id="quizPage" class="card hidden">
+
+        <div class="quizInfo">
+
+            <span id="questionNumber">
+                1 / 10
+            </span>
+
+            <span id="scoreText">
+                ⭐ 0
+            </span>
+
+        </div>
+
+        <div class="progress">
+            <div
+                id="progressBar"
+                class="progressBar">
+            </div>
+        </div>
+
+        <div class="question">
+
+            <h2 id="questionText">
+                Pertanyaan
+            </h2>
+
+        </div>
+
+        <div id="answers"></div>
+
+        <div id="feedback"></div>
+
+    </div>
+
+
+    <!-- HALAMAN HASIL -->
+
+    <div id="resultPage" class="card result hidden">
+
+        <div class="trophy">
+            🏆
+        </div>
+
+        <h2>Kuis Selesai!</h2>
+
+        <p id="playerResult"></p>
+
+        <div
+            id="finalScore"
+            class="score">
+            0/100
+        </div>
+
+        <p id="resultMessage"></p>
+
+        <div class="leaderboard">
+
+            <h3>🏆 Leaderboard</h3>
+
+            <div id="leaderboardList"></div>
+
+        </div>
+
+        <button
+            id="restartBtn"
+            type="button">
+            🔄 MAIN LAGI
+        </button>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/* ==================================
+   SOAL
+================================== */
+
+const questionBank = [
+
+    {
+        question:"Bagian tumbuhan yang menyerap air dari tanah adalah...",
+        answers:[
+            "Daun",
+            "Akar",
+            "Bunga",
+            "Buah"
+        ],
+        correct:1
+    },
+
+    {
+        question:"Apa warna daun yang paling umum?",
+        answers:[
+            "Biru",
+            "Merah",
+            "Hijau",
+            "Hitam"
+        ],
+        correct:2
+    },
+
+    {
+        question:"Tumbuhan membuat makanan sendiri melalui proses...",
+        answers:[
+            "Fotosintesis",
+            "Respirasi",
+            "Rotasi",
+            "Evaporasi"
+        ],
+        correct:0
+    },
+
+    {
+        question:"Hewan yang sering membantu penyerbukan bunga adalah...",
+        answers:[
+            "Hiu",
+            "Lebah",
+            "Paus",
+            "Lumba-lumba"
+        ],
+        correct:1
+    },
+
+    {
+        question:"Tumbuhan membutuhkan air agar dapat...",
+        answers:[
+            "Terbang",
+            "Berbicara",
+            "Tumbuh",
+            "Berjalan"
+        ],
+        correct:2
+    },
+
+    {
+        question:"Wortel merupakan bagian tumbuhan berupa...",
+        answers:[
+            "Akar",
+            "Daun",
+            "Bunga",
+            "Batang"
+        ],
+        correct:0
+    },
+
+    {
+        question:"Padi menghasilkan...",
+        answers:[
+            "Susu",
+            "Beras",
+            "Telur",
+            "Daging"
+        ],
+        correct:1
+    },
+
+    {
+        question:"Bagian tumbuhan yang biasanya berwarna hijau adalah...",
+        answers:[
+            "Daun",
+            "Akar",
+            "Biji",
+            "Buah"
+        ],
+        correct:0
+    },
+
+    {
+        question:"Apa yang sebaiknya kita lakukan terhadap tanaman?",
+        answers:[
+            "Merusaknya",
+            "Mencabutnya",
+            "Merawatnya",
+            "Menginjaknya"
+        ],
+        correct:2
+    },
+
+    {
+        question:"Tumbuhan hijau membutuhkan cahaya dari...",
+        answers:[
+            "Matahari",
+            "Batu",
+            "Pasir",
+            "Plastik"
+        ],
+        correct:0
+    }
+
+];
+
+
+/* ==================================
+   VARIABEL
+================================== */
+
+let current = 0;
+let score = 0;
+let playerName = "";
+let locked = false;
+
+
+/* ==================================
+   ELEMENT
+================================== */
+
+const startPage =
+    document.getElementById("startPage");
+
+const quizPage =
+    document.getElementById("quizPage");
+
+const resultPage =
+    document.getElementById("resultPage");
+
+const nameInput =
+    document.getElementById("nameInput");
+
+const startBtn =
+    document.getElementById("startBtn");
+
+const restartBtn =
+    document.getElementById("restartBtn");
+
+const questionNumber =
+    document.getElementById("questionNumber");
+
+const scoreText =
+    document.getElementById("scoreText");
+
+const questionText =
+    document.getElementById("questionText");
+
+const answers =
+    document.getElementById("answers");
+
+const feedback =
+    document.getElementById("feedback");
+
+const progressBar =
+    document.getElementById("progressBar");
+
+
+/* ==================================
+   ACAK SOAL
+================================== */
+
+function shuffle(array){
+
+    const result = [...array];
+
+    for(
+        let i=result.length-1;
+        i>0;
+        i--
+    ){
+
+        const j =
+            Math.floor(Math.random()*(i+1));
+
+        [
+            result[i],
+            result[j]
+        ] =
+        [
+            result[j],
+            result[i]
+        ];
+
+    }
+
+    return result;
+}
+
+let questions = [];
+
+
+/* ==================================
+   MULAI KUIS
+================================== */
+
+startBtn.onclick = function(){
+
+    const name =
+        nameInput.value.trim();
+
+    if(name === ""){
+
+        alert("Masukkan nama kamu dulu 😊");
+
+        nameInput.focus();
+
+        return;
+
+    }
+
+    playerName = name;
+
+    current = 0;
+
+    score = 0;
+
+    locked = false;
+
+    questions = shuffle(questionBank);
+
+    startPage.classList.add("hidden");
+
+    resultPage.classList.add("hidden");
+
+    quizPage.classList.remove("hidden");
+
+    showQuestion();
+
+};
+
+
+/* ==================================
+   TAMPIL SOAL
+================================== */
+
+function showQuestion(){
+
+    locked = false;
+
+    const data =
+        questions[current];
+
+    questionNumber.textContent =
+        (current + 1) + " / 10";
+
+    scoreText.textContent =
+        "⭐ " + score;
+
+    progressBar.style.width =
+        ((current + 1) * 10) + "%";
+
+    questionText.textContent =
+        data.question;
+
+    feedback.textContent = "";
+
+    answers.innerHTML = "";
+
+
+    for(
+        let i=0;
+        i<data.answers.length;
+        i++
+    ){
+
+        const btn =
+            document.createElement("button");
+
+        btn.type = "button";
+
+        btn.className = "answer";
+
+        btn.textContent =
+            String.fromCharCode(65+i)
+            + ". "
+            + data.answers[i];
+
+
+        /* KLIK JAWABAN */
+
+        btn.onclick = function(){
+
+            checkAnswer(
+                btn,
+                i
+            );
+
+        };
+
+
+        answers.appendChild(btn);
+
+    }
+
+}
+
+
+/* ==================================
+   CEK JAWABAN
+================================== */
+
+function checkAnswer(
+    selectedButton,
+    selectedIndex
+){
+
+    if(locked){
+        return;
+    }
+
+    locked = true;
+
+    const data =
+        questions[current];
+
+    const allButtons =
+        answers.querySelectorAll("button");
+
+
+    /* Matikan tombol setelah dipilih */
+
+    for(
+        let i=0;
+        i<allButtons.length;
+        i++
+    ){
+
+        allButtons[i].disabled = true;
+
+    }
+
+
+    /* BENAR */
+
+    if(
+        selectedIndex === data.correct
+    ){
+
+        selectedButton.classList.add(
+            "correct"
+        );
+
+        score += 10;
+
+        feedback.textContent =
+            "✅ BENAR! +10 poin";
+
+        feedback.style.color =
+            "#299443";
+
+    }
+
+
+    /* SALAH */
+
+    else{
+
+        selectedButton.classList.add(
+            "wrong"
+        );
+
+        allButtons[
+            data.correct
+        ].classList.add(
+            "correct"
+        );
+
+        feedback.textContent =
+            "❌ Salah! Jawaban yang benar: "
+            + data.answers[data.correct];
+
+        feedback.style.color =
+            "#d13f3f";
+
+    }
+
+
+    scoreText.textContent =
+        "⭐ " + score;
+
+
+    /* Otomatis lanjut setelah 1 detik */
+
+    setTimeout(
+        function(){
+
+            current++;
+
+            if(current >= 10){
+
+                finishQuiz();
+
+            }
+            else{
+
+                showQuestion();
+
+            }
+
+        },
+        1000
+    );
+
+}
+
+
+/* ==================================
+   SELESAI
+================================== */
+
+function finishQuiz(){
+
+    quizPage.classList.add("hidden");
+
+    resultPage.classList.remove("hidden");
+
+    document.getElementById(
+        "playerResult"
+    ).textContent =
+        "🌟 " + playerName;
+
+
+    document.getElementById(
+        "finalScore"
+    ).textContent =
+        score + "/100";
+
+
+    let message;
+
+
+    if(score === 100){
+
+        message =
+            "🏆 SEMPURNA! Semua jawaban benar!";
+
+    }
+    else if(score >= 80){
+
+        message =
+            "🌟 Hebat banget!";
+
+    }
+    else if(score >= 60){
+
+        message =
+            "👏 Bagus! Coba lagi untuk mendapatkan 100.";
+
+    }
+    else{
+
+        message =
+            "🌱 Jangan menyerah! Coba lagi.";
+
+    }
+
+
+    document.getElementById(
+        "resultMessage"
+    ).textContent =
+        message;
+
+
+    saveLeaderboard();
+
+}
+
+
+/* ==================================
+   LEADERBOARD
+================================== */
+
+function saveLeaderboard(){
+
+    let data = [];
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "tamanLeaderboard"
+                ) || "[]"
+            );
+
+    }
+    catch(e){
+
+        data = [];
+
+    }
+
+
+    data.push({
+
+        name:playerName,
+
+        score:score
+
+    });
+
+
+    data.sort(
+        function(a,b){
+
+            return b.score - a.score;
+
+        }
+    );
+
+
+    data =
+        data.slice(0,10);
+
+
+    try{
+
+        localStorage.setItem(
+            "tamanLeaderboard",
+            JSON.stringify(data)
+        );
+
+    }
+    catch(e){}
+
+
+    showLeaderboard();
+
+}
+
+
+/* ==================================
+   TAMPIL LEADERBOARD
+================================== */
+
+function showLeaderboard(){
+
+    const list =
+        document.getElementById(
+            "leaderboardList"
+        );
+
+    list.innerHTML = "";
+
+
+    let data = [];
+
+    try{
+
+        data =
+            JSON.parse(
+                localStorage.getItem(
+                    "tamanLeaderboard"
+                ) || "[]"
+            );
+
+    }
+    catch(e){
+
+        data = [];
+
+    }
+
+
+    if(data.length === 0){
+
+        list.innerHTML =
+            "<p style='text-align:center'>Belum ada skor.</p>";
+
+        return;
+
+    }
+
+
+    for(
+        let i=0;
+        i<data.length;
+        i++
+    ){
+
+        const row =
+            document.createElement("div");
+
+        row.className = "rank";
+
+        const name =
+            document.createElement("span");
+
+        name.textContent =
+            (i+1) + ". " + data[i].name;
+
+        const points =
+            document.createElement("b");
+
+        points.textContent =
+            data[i].score;
+
+
+        row.appendChild(name);
+
+        row.appendChild(points);
+
+        list.appendChild(row);
+
+    }
+
+}
+
+
+/* ==================================
+   MAIN LAGI
+================================== */
+
+restartBtn.onclick = function(){
+
+    current = 0;
+
+    score = 0;
+
+    playerName = "";
+
+    locked = false;
+
+    nameInput.value = "";
+
+    resultPage.classList.add("hidden");
+
+    quizPage.classList.add("hidden");
+
+    startPage.classList.remove("hidden");
+
+    setTimeout(
+        function(){
+            nameInput.focus();
+        },
+        100
+    );
+
+};
+
+
+showLeaderboard();
+
+</script>
+
+</body>
+</html>
